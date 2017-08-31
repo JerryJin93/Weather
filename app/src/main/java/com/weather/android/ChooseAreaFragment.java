@@ -141,7 +141,7 @@ public class ChooseAreaFragment extends Fragment {
     {
         titleText.setText(selectedProvince.getProvinceName());
         backButton.setVisibility(View.VISIBLE);
-        cityList = DataSupport.where("province = ?", String.valueOf(selectedProvince.getId())).find(City.class);
+        cityList = DataSupport.where("provinceid = ?", String.valueOf(selectedProvince.getId())).find(City.class);
         if(cityList.size() > 0)
         {
             dataList.clear();
@@ -165,7 +165,7 @@ public class ChooseAreaFragment extends Fragment {
     {
         titleText.setText(selectedCity.getCityName());
         backButton.setVisibility(View.VISIBLE);
-        countyList = DataSupport.where("city id = ?", String.valueOf(selectedCity.getId())).find(County.class);
+        countyList = DataSupport.where("cityid = ?", String.valueOf(selectedCity.getId())).find(County.class);
         if(countyList.size() > 0)
         {
             dataList.clear();
