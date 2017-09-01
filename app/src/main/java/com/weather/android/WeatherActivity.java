@@ -60,6 +60,8 @@ public class WeatherActivity extends AppCompatActivity {
 
     public SwipeRefreshLayout swipeRefresh;
 
+    private String mWeatherId;
+
     public DrawerLayout drawerLayout;
 
     private Button navButton;
@@ -94,23 +96,23 @@ public class WeatherActivity extends AppCompatActivity {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
-        final String weatherId;
+
         if(weatherString != null)
         {
             Weather weather = Utility.handleWeatherResponse(weatherString);
-            weatherId = weather.basic.weatherId;
+            mWeatherId = weather.basic.weatherId;
             showWeatherInfo(weather);
         }
         else
         {
-            weatherId = getIntent().getStringExtra("weather_id");
+            mWeatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.INVISIBLE);
-            requestWeather(weatherId);
+            requestWeather(mWeatherId);
         }
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestWeather(weatherId);
+                requestWeather(mWeatherId);
             }
         });
         navButton.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +160,7 @@ public class WeatherActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
                             editor.apply();
+                            mWeatherId = weather.basic.weatherId;
                             showWeatherInfo(weather);
                         }
                         else
@@ -233,6 +236,7 @@ public class WeatherActivity extends AppCompatActivity {
             sportText.setText(sport);
             weatherLayout.setVisibility(View.VISIBLE);
 
+            weatherLayout.setVisibility(View.VISIBLE);
             Intent intent = new Intent(this, AutoUpdateService.class);
             startService(intent);
         }
